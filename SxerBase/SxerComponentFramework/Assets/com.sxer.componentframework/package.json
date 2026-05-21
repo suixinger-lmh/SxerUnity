@@ -1,0 +1,12 @@
+{
+	"name": "com.sxer.componentframework",
+	"displayName": "SxerComponentFramework",
+	"description": "This is my custom Unity Component Framework.--by Sxer",
+	"version": "0.0.1",
+	"unity": "2022.3",
+	"author": {
+		"name": "Sxer",
+		"email": "308457938@qq.com"
+	},
+	"keywords": ["sxer", "framework" , "component manager"]
+}

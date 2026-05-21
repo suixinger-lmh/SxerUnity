@@ -1,0 +1,18 @@
+{
+    "name": "Sxer.ComponentFramework.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:304831d4f645baa41a352c421251d2fb"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
