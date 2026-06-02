@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ProcessXmlSerializer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <XMLProcessBases>
+
+    <XMLProcessBase xsi:type="XMLStandardStepProcess" ProcessName="start" NextProcessName="" >
+<UseRecord>false</UseRecord>
+<MyTask>task  22</MyTask>
+<Description></Description>
+<OperationIds>
+<OperationId>6</OperationId>
+<OperationId>9</OperationId>
+</OperationIds>
+</XMLProcessBase>
+
+</XMLProcessBases>
+
+</ProcessXmlSerializer>
