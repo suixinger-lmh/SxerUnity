@@ -25,3 +25,9 @@ unity的音频版本实现
 
 
 
+#### 记录
+每次提交都需要把FMOD的Plugin---》Resource下的FMODStudioSettings删掉。（会在导入后自动创建新的）
+
+
+
+
