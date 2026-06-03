@@ -1,0 +1,12 @@
+{
+	"name": "com.sxer.plugin.eventsystem",
+	"displayName": "SxerEventSystem",
+	"description": "事件系统",
+	"version": "0.0.1",
+	"unity": "2022.3",
+	"author": {
+		"name": "Sxer",
+		"email": "308457938@qq.com"
+	},
+	"keywords": ["sxer", "framework","event"]
+}

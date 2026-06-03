@@ -1,0 +1,18 @@
+{
+    "name": "Sxer.EventSystem.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d2c43bb0f34ef7a419e77e95544e14a6"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
