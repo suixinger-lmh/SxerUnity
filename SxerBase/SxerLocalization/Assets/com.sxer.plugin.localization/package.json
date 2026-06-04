@@ -1,0 +1,12 @@
+{
+	"name": "com.sxer.plugin.localization",
+	"displayName": "SxerLocalization",
+	"description": "语言本地化",
+	"version": "0.0.1",
+	"unity": "2022.3",
+	"author": {
+		"name": "Sxer",
+		"email": "308457938@qq.com"
+	},
+	"keywords": ["sxer", "framework","localization"]
+}
