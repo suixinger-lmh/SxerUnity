@@ -1,0 +1,12 @@
+{
+	"name": "com.sxer.plugin.savesystem",
+	"displayName": "SxerSaveSystem",
+	"description": "持久化存储",
+	"version": "0.0.1",
+	"unity": "2022.3",
+	"author": {
+		"name": "Sxer",
+		"email": "308457938@qq.com"
+	},
+	"keywords": ["sxer", "framework","savesystem"]
+}
