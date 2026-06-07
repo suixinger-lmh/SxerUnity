@@ -8,5 +8,8 @@
 		"name": "Sxer",
 		"email": "308457938@qq.com"
 	},
+	"dependencies": {
+		"com.unity.addressables": "1.21.21"
+	},
 	"keywords": ["sxer", "framework","resourcesystem"]
 }
