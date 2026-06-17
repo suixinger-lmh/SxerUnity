@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
-namespace Sxer.Frame.Plugin.ProcessManagement.XMLProcess
+namespace Sxer.Plugin.ProcessManagement.XMLProcess
 {
     [XmlRoot("OperationXmlSerializer")]
     [XmlInclude(typeof(XMLOperationBase))]

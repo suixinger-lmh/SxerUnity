@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sxer.Frame.Plugin.ProcessManagement.Flow
+namespace Sxer.Plugin.ProcessManagement.Flow
 {
     /// <summary>
     /// 顺序流程变体：挂载此脚本的物体，会自动收集所有子物体上的FlowStepBase，
@@ -12,50 +12,45 @@ namespace Sxer.Frame.Plugin.ProcessManagement.Flow
         [Tooltip("是否循环执行（完成后回到第一步）")]
         public bool loop = false;
 
+        [SerializeField]
         private List<FlowStepBase> steps = new List<FlowStepBase>();
         private int currentStepIndex = -1;
 
         private FlowStepBase currentStep;
 
-        private void CollectSteps()
-        {
-            currentStepIndex = -1;
-            currentStep = null;
-            steps.Clear();
-            // 只收集直接子物体上的步骤，并按SiblingIndex排序
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                var child = transform.GetChild(i);
-                var step = child.GetComponent<FlowStepBase>();
-                if (step != null)
-                {
-                    steps.Add(step);
-                }
-            }
-        }
 
         /// <summary>
         /// 在编辑器中重新收集步骤（可通过自定义编辑器调用）
         /// </summary>
         public void RefreshSteps()
         {
-            CollectSteps();
+            steps.Clear();
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                var step = transform.GetChild(i).GetComponent<FlowStepBase>();
+                if (step != null) steps.Add(step);
+            }
         }
 
+        
+        /// <summary>
+        /// 初始化获取一次所有步骤，并对步骤进行初始化
+        /// </summary>
         protected override void OnInit()
         {
-            base.OnInit();
-
             RefreshSteps();
+            foreach (var step in steps)
+            {
+                step.InitStep();
+            }
         }
 
         protected override void OnStart()
         {
             if (steps.Count == 0)
             {
-                Debug.LogWarning($"顺序流程 [{processId}] 没有子级步骤，直接完成");
-                State = ProcessState.Completed;
-                OnCompleted();
+                Debug.LogWarning($"[FlowProcess] {processId} 没有子级步骤，直接完成");
+                isCompleted = true;
                 return;
             }
             currentStepIndex = 0;
@@ -66,13 +61,9 @@ namespace Sxer.Frame.Plugin.ProcessManagement.Flow
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (steps.Count == 0 || currentStepIndex < 0 || currentStepIndex >= steps.Count)
-                return;
+            if (currentStep == null) return;
 
-            if (currentStep == null)
-                return;
-            
-            currentStep.OnUpdate();
+            currentStep.OnUpdate(deltaTime); // 传递时间
 
             if (currentStep.IsComplete)
             {
@@ -100,24 +91,24 @@ namespace Sxer.Frame.Plugin.ProcessManagement.Flow
                     else
                     {
                         // 流程完成
-                        State = ProcessState.Completed;
-                        OnCompleted();
+                        isCompleted = true;
                     }
                 }
             }
         }
 
+        // 补全父节点被打断/暂停时的向下穿透逻辑
+        protected override void OnPause() => currentStep?.OnPause();
+        protected override void OnResume() => currentStep?.OnResume();
+
+
         protected override void OnStop()
         {
-            if (currentStepIndex >= 0 && currentStepIndex < steps.Count)
-            {
-                currentStep = steps[currentStepIndex];
-                currentStep.OnLeave();
-            }
+            currentStep?.OnLeave();
             currentStepIndex = -1;
             currentStep = null;
         }
 
-      
+        public List<FlowStepBase> GetSteps() => steps;
     }
 }

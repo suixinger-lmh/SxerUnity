@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Sxer.Frame.Plugin.ProcessManagement.Flow
+namespace Sxer.Plugin.ProcessManagement.Flow
 {
     /// <summary>
     /// 顺序流程中的一个步骤（挂载在顺序流程物体子级下）
@@ -13,27 +13,40 @@ namespace Sxer.Frame.Plugin.ProcessManagement.Flow
         /// <summary>
         /// 步骤是否已完成（完成后顺序流程进入下一步骤）
         /// </summary>
-        public bool IsComplete { get; protected set; }
+        public bool IsComplete => isCompleted;
+        protected bool isCompleted = false;
 
-        /// <summary>
-        /// 标记当前步骤完成，将触发顺序流程切换到下一步骤
-        /// </summary>
-        public void CompleteStep()
+        private bool isInitialized = false;
+
+        internal void InitStep()
         {
-            IsComplete = true;
+            if (isInitialized) return;
+            isInitialized = true;
+            OnInit();
         }
+
+
+   
 
         /// <summary>
         /// 重置步骤状态（供顺序流程复用）
         /// </summary>
-        public virtual void ResetStep()
+        internal void ResetStep()
         {
-            IsComplete = false;
+            isCompleted = false;
+            OnReset();
         }
 
-        // 由顺序流程调用的生命周期
+
+        /// <summary> 只在最开始初始化一次 </summary>
+        protected virtual void OnInit() { }
+        /// <summary> 每次重新进入该步骤前调用 </summary>
+        protected virtual void OnReset() { }
+        /// <summary> 进入该步骤 </summary>
         public virtual void OnEnter() { }
-        public virtual void OnUpdate() { }
+        public virtual void OnUpdate(float deltaTime) { }
         public virtual void OnLeave() { }
+        public virtual void OnPause() { }
+        public virtual void OnResume() { }
     }
 }

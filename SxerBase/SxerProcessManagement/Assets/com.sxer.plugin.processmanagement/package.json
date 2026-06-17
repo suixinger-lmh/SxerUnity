@@ -2,7 +2,7 @@
 	"name": "com.sxer.plugin.processmanagement",
 	"displayName": "SxerProcessManagement",
 	"description": "流程控制【包含（顺序流程，xml配置流程）】",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"unity": "2022.3",
 	"author": {
 		"name": "Sxer",

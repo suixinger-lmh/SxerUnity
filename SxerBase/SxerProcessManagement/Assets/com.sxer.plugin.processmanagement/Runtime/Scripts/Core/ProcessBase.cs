@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-namespace Sxer.Frame.Plugin.ProcessManagement
+namespace Sxer.Plugin.ProcessManagement
 {
     /// <summary>
     /// 流程状态
@@ -30,11 +31,24 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         [Tooltip("是否在场景收集后自动启动（需调用ProcessManager.CollectAndAutoStart）")]
         public bool autoExecute = false;    // 新增：自动执行标记
 
+        [Tooltip("自动执行优先级（数值越小，越先执行）")]
+        public int priority = 0;
+
+
         public ProcessState State { get; protected set; } = ProcessState.Inactive;
+
+        // 流程完成事件（给业务逻辑扩展下）
+        public event Action<ProcessBase> OnProcessCompletedEvent;
+
+
+        // 核心修改：暴露给Manager的只读属性，子类通过 protected 变量修改
+        public bool IsCompleted => isCompleted;
+        protected bool isCompleted = false;
+
 
         private bool isInitialized = false;
 
-        public void Init()
+        internal void Init()
         {
             if (isInitialized) return;
             isInitialized = true;
@@ -44,9 +58,14 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         /// <summary>
         /// 流程开始（由Manager调用）
         /// </summary>
-        public void StartProcess()
+        internal void StartProcess()
         {
-            if (State == ProcessState.Running) return;
+            if (State == ProcessState.Running || State == ProcessState.Paused)
+            {
+                Debug.LogWarning($"[ProcessBase] 流程 {processId} 当前状态为 {State}，无法直接Start。");
+                return;
+            }
+            isCompleted = false; // 每次启动时重置完成状态
             State = ProcessState.Running;
             OnStart();
         }
@@ -54,7 +73,7 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         /// <summary>
         /// 流程停止（由Manager调用）
         /// </summary>
-        public void StopProcess()
+        internal void StopProcess()
         {
             if (State == ProcessState.Inactive) return;
             OnStop();
@@ -64,7 +83,7 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         /// <summary>
         /// 暂停流程（由Manager调用）
         /// </summary>
-        public void PauseProcess()
+        internal void PauseProcess()
         {
             if (State != ProcessState.Running) return;
             State = ProcessState.Paused;
@@ -74,7 +93,7 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         /// <summary>
         /// 恢复流程（由Manager调用）
         /// </summary>
-        public void ResumeProcess()
+        internal void ResumeProcess()
         {
             if (State != ProcessState.Paused) return;
             State = ProcessState.Running;
@@ -84,17 +103,33 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         /// <summary>
         /// 由ProcessManager在Update中驱动（仅Running状态）
         /// </summary>
-        public void UpdateProcess(float deltaTime)
+        internal void UpdateProcess(float deltaTime)
         {
             if (State == ProcessState.Running)
                 OnUpdate(deltaTime);
         }
 
 
-        public void CompleteProcess()
+        // 由 Manager 确认完成后，统一调用的收尾动作
+        internal void MarkAsCompleted()
         {
-            
+            if (State == ProcessState.Completed) return;
+            State = ProcessState.Completed;
+            OnCompleted();
+            OnProcessCompletedEvent?.Invoke(this);
         }
+
+        //public void CompleteProcess()
+        //{
+        //    if (State == ProcessState.Completed) return;
+
+        //    // 如果流程还在运行或暂停，先触发停止相关逻辑(视业务需求可选)，这里直接切完成态
+        //    State = ProcessState.Completed;
+        //    OnCompleted();
+
+        //    // 通知Manager该流程已完成，可以执行下一个
+        //    OnProcessCompletedEvent?.Invoke(this);
+        //}
 
 
         // 子类重写的生命周期方法
@@ -104,7 +139,6 @@ namespace Sxer.Frame.Plugin.ProcessManagement
         protected virtual void OnPause() { }
         protected virtual void OnResume() { }
         protected virtual void OnUpdate(float deltaTime) { }
-
         protected virtual void OnCompleted() { }
 
     }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
-namespace Sxer.Frame.Plugin.ProcessManagement.XMLProcess.Tool
+namespace Sxer.Plugin.ProcessManagement.XMLProcess.Tool
 {
     public static class XMLHelper
     {

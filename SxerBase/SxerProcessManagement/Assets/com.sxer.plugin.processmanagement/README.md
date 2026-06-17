@@ -21,6 +21,18 @@ XMLProcess：LYT的流程框架，通过xml配置表，编辑器可视化配置�
 
 #### 使用说明
 
+所有的ProcessBase实现类，都要手动控制IsComplete的状态
+
+FlowProcess里的对应Step实现，也是要手动控制IsComplete状态
+
+
+#### 更新
+26.6.17 缺陷优化
+1.命名空间调整（去掉frame）
+2.增加清理操作
+3.base增加优先级字段，自动按照优先级排序执行
+4.编辑器功能
+
 
 
 

@@ -1,10 +1,10 @@
-﻿using Sxer.Frame.Plugin.ProcessManagement.XMLProcess.Tool;
+﻿using Sxer.Plugin.ProcessManagement.XMLProcess.Tool;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace Sxer.Frame.Plugin.ProcessManagement.XMLProcess
+namespace Sxer.Plugin.ProcessManagement.XMLProcess
 {
     /// <summary>
     /// 配表实现流程

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using System.Xml.Serialization;
 
 
-namespace Sxer.Frame.Plugin.ProcessManagement.XMLProcess
+namespace Sxer.Plugin.ProcessManagement.XMLProcess
 {
 
     [System.Serializable]
