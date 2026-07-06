@@ -2,7 +2,7 @@
 	"name": "com.sxer.plugin.uisystem",
 	"displayName": "SxerUISystem",
 	"description": "Simple UISystem .--by Sxer",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"unity": "2022.3",
 	"author": {
 		"name": "Sxer",
